@@ -13,7 +13,7 @@ var applicantSchema = new Schema({
 
 var testSchema = new Schema({
     testTitle: String,
-    jobTitle: String,
+    positionApplied: String,
     questions: [{ question: String, answers: []}]
 }, {
     timestamps: true
