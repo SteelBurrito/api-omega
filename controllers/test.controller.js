@@ -11,6 +11,9 @@ exports.create = function (req,res) {
     var newTest = new TestInstance({
         testTitle: req.body.testTitle,
         positionApplied: req.body.positionApplied,
+        countdownHour: req.body.countdownHour,
+        countdownMinute: req.body.countdownMinute,
+        countdownSeconds: req.body.countdownSeconds,
         questions: req.body.questions
     });
 
@@ -60,6 +63,9 @@ exports.update = function (req,res) {
         
         test.testTitle = req.body.testTitle;
         test.positionApplied = req.body.positionApplied;
+        test.countdownHour = req.body.countdownHour,
+        test.countdownMinute = req.body.countdownMinute,
+        test.countdownSeconds = req.body.countdownSeconds,
         test.questions = req.body.questions;
         
         test.save(function (err,data) {

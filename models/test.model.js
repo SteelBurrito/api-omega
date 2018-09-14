@@ -14,6 +14,12 @@ var applicantSchema = new Schema({
 var testSchema = new Schema({
     testTitle: String,
     positionApplied: String,
+    
+    // Set time limit for the test
+    countdownHour: Number,
+    countdownMinute: Number,
+    countdownSeconds: Number,
+
     questions: [{ question: String, answers: []}]
 }, {
     timestamps: true
