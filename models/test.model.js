@@ -3,8 +3,8 @@ var Schema = Mongoose.Schema;
 
 var applicantSchema = new Schema({
     name: String,
-    applicationDate: Date,
     jobtitleApplied: String,
+    email: String,
     aptitudeTest: {type: Mongoose.Schema.Types.ObjectId, ref: 'Test'},
     results: [{ question: String, answer: String}]
 }, {

@@ -30,7 +30,7 @@ exports.findall = function (req,res) {
     TestInstance.find(function (err,tests) {
         if (err) {
             res.status(500).send({
-                message: 'Could not retrieve tests'
+                message: 'Unable to retrieve tests'
             });
         } else {
             res.send(tests);
@@ -39,11 +39,10 @@ exports.findall = function (req,res) {
 };
 
 exports.findone = function (req,res) {
-    var query = req.body;
     TestInstance.findById(req.params.testID, function (err,data) {
         if (err) {
             return res.status(500).send({
-                message: 'Could not retrieve test with id: ' + req.params.testID
+                message: 'Unable to retrieve test with id: ' + req.params.testID
             });
         }
         return res.json(data);
@@ -55,7 +54,7 @@ exports.update = function (req,res) {
     Test.findById(req.params.testID, function (err,test) {
         if (err) {
             return res.status(500).send({
-                message: 'Could not retrieve test with id: ' + req.params.testID
+                message: 'Unable to retrieve test with id: ' + req.params.testID
             });
         }
         
@@ -66,7 +65,7 @@ exports.update = function (req,res) {
         test.save(function (err,data) {
             if (err) {
                 res.status(500).send({
-                    message: 'Could not update aptitude test with id: ' + req.params.testID
+                    message: 'Unable to update aptitude test with id: ' + req.params.testID
                 });
             } else {
                 res.send(data);
@@ -78,10 +77,10 @@ exports.update = function (req,res) {
 exports.delete = function (req, res) {
     Test.remove({
         _id: req.params.testID
-    }, function (err, data) {
+    }, function (err) {
         if (err) {
             res.status(500).send({
-                message: 'Could not delete aptitude test with id: ' + req.params.id
+                message: 'Unable to delete aptitude test with id: ' + req.params.id
             });
         } else {
             res.send({
