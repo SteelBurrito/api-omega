@@ -5,28 +5,31 @@ const ApplicantInstance = Applicant.ApplicantInstance;
 const TestInstance = Applicant.TestInstance;
 
 exports.generatetoken = (req,res) => {
-    ApplicantInstance.find ({
-        email: req.body.email,
-        aptitudeTest: req.body.aptitudeTest
-    }).then (applicant => {
+    ApplicantInstance.findById (req.params.applicantID).then (applicant => {
         if(!applicant) {
             return res.status(400).send({
                 message: 'Unable to generate token for applicant with ID = ' +  req.body.email
             });
         }
-        TestInstance.findById(applicant.aptitudeTest, function (err, test) {
+        var name = applicant.name;
+        var email = applicant.email;
+        var aptitudeTest = applicant.aptitudeTest;
+        TestInstance.findById(aptitudeTest, function (err, test) {
             if (err) {
                 throw err;
             }
             else if (test) {
-             var tokenExpiration = test.countdownMinute;
+             const tokenExpiration = JSON.parse(JSON.stringify(test.countdownMinute));
+             var token = jwt.sign({
+                 name,
+                 email,
+                 aptitudeTest
+             }, 'RESTFULAPIs', 
+             {
+                 expiresIn: tokenExpiration + "m"
+             });
              return res.json({
-                 token: jwt.sign({
-                     email: applicant.email,
-                     aptitudeTest: applicant.aptitudeTest,
-                 }, {
-                     expiresIn: tokenExpiration
-                 }, 'RESTFULAPIs')
+                 token: token 
              });
             }
         });

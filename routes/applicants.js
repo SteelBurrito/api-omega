@@ -10,6 +10,6 @@ router.get('/', applicant_controller.findall);
 router.get('/:applicantID', applicant_controller.findone);
 router.put('/:applicantID', applicant_controller.update);
 router.delete('/:applicantID', applicant_controller.delete);
-router.get('/jwttest', authentication_controller.generatetoken);
+router.get('/jwttest/:applicantID', authentication_controller.generatetoken);
 
 module.exports = router;
