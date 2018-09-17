@@ -42,43 +42,48 @@ exports.findone = function (req,res) {
     ApplicantInstance.findById(req.params.applicantID, function (err,data) {
         if (err) {
             return res.status(500).send({
-                message: 'Unable to retrieve applicant with ID = ' + req.params.data
+                message: 'Unable to retrieve applicant with ID = ' + req.params.applicantID
             });
         }
         return res.json(data);
     });
 };
 
-exports.update = function (req,res) {
-    // Change applicant details
-    // Associates applicant with aptitude test
-    Applicant.findById(req.params.applicantID, function (err, applicant) {
-        if (err) {
-            return res.status(500).send ({
-                message: 'Unable to retrieve applicant with ID = ' + req.params.applicantID
+exports.update = (req,res) => {
+    if(!req.body) {
+        return res.status(400).send ({
+            message: 'Update content cannot be empty'
+        });
+    }
+    // console.log(req.params.applicantID);
+    ApplicantInstance.findByIdAndUpdate (req.params.applicantID, {
+            name : req.body.name,
+            jobtitleApplied : req.body.jobtitleApplied,
+            email : req.body.email,
+            aptitudeTest : req.body.aptitudeTest,
+            results : req.body.results
+    }, {new: true})
+    .then(applicant => {
+        if(!applicant) {
+            return res.status(404).send({
+                message: 'Applicant not found with ID = ' + req.params.applicantID
             });
         }
-
-        applicant.name = req.body.name;
-        applicant.jobtitleApplied = req.body.jobtitleApplied;
-        applicant.email = req.body.email;
-        applicant.aptitudeTest = req.body.aptitudeTest;
-        applicant.results = req.body.results;
-
-        applicant.save (function (err,data) {
-            if (err) {
-                res.status(500).send ({
-                    message: 'Unable to update applicant with ID = ' + req.params.applicantID
-                });
-            } else {
-                res.send(data);
-            }
+        res.send(applicant);
+    }).catch(err => {
+        if (err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: 'Applicant not found with ID = ' + req.params.applicantID
+            });
+        }
+        return res.status(500).send({
+            message: 'An error occured while updating applicant with ID = ' + req.params.applicantID
         });
     });
-}
+};  
 
 exports.delete = function (req,res) {
-    Applicant.findByIdAndRemove(req.params.applicantID)
+    ApplicantInstance.findByIdAndRemove(req.params.applicantID)
     .then (applicant => {
         if (!applicant) {
             return res.status(400).send({

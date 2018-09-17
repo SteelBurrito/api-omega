@@ -54,7 +54,7 @@ exports.findone = function (req,res) {
 
 exports.update = function (req,res) {
     //change test
-    Test.findById(req.params.testID, function (err,test) {
+    TestInstance.findById(req.params.testID, function (err,test) {
         if (err) {
             return res.status(500).send({
                 message: 'Unable to retrieve test with id: ' + req.params.testID
@@ -81,7 +81,7 @@ exports.update = function (req,res) {
 };
 
 exports.delete = function (req, res) {
-    Test.remove({
+    TestInstance.remove({
         _id: req.params.testID
     }, function (err) {
         if (err) {

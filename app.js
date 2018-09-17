@@ -4,9 +4,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-const index = require('./routes/index');
-const tests = require('./routes/tests');
-const applicants = require('./routes/applicants');
+var index = require('./routes/index');
+var tests = require('./routes/tests');
+var applicants = require('./routes/applicants');
 
 var app = express();
 
@@ -31,7 +31,7 @@ mongoose.connect(OmegaDB.url, {
   process.exit();
 });
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
