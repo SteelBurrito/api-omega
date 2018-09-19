@@ -73,19 +73,6 @@ exports.verifytoken = (req,res,next) => {
                         message: 'Token Invalid!'
                     });
                 }
-                // return res.json({
-                //     verified: jwt.verify(token, publicKEY, verification)
-                // });
-                // try {
-                //     jwt.verify(token, publicKEY, verification);
-                //     return res.json({
-                //         verified: jwt.verify(token, publicKEY, verification)
-                //     });
-                // } catch (err) {
-                //     return res.status(400).send({
-                //         message: err
-                //     });
-                // }
             }
         });
     }
