@@ -45,7 +45,7 @@ exports.generatetoken = (req,res) => {
     });
 };
 
-exports.verifytoken = (req,res) => {
+exports.verifytoken = (req,res,next) => {
     const token = req.params.token;
     var decodedToken = jwt.decode(token);
     
@@ -64,16 +64,28 @@ exports.verifytoken = (req,res) => {
                     expiresIn: tokenExpiration + 'm',
                     algorithm: ['RS256']
                 }
-                try {
-                    jwt.verify(token, publicKEY, verification);
-                    return res.json({
-                        decodedToken: decodedToken
-                    });
-                } catch (err) {
+                var verified = jwt.verify(token, publicKEY, verification);
+                if (verified) {
+                    next()
+                }
+                else {
                     return res.status(400).send({
                         message: 'Token Invalid!'
                     });
                 }
+                // return res.json({
+                //     verified: jwt.verify(token, publicKEY, verification)
+                // });
+                // try {
+                //     jwt.verify(token, publicKEY, verification);
+                //     return res.json({
+                //         verified: jwt.verify(token, publicKEY, verification)
+                //     });
+                // } catch (err) {
+                //     return res.status(400).send({
+                //         message: err
+                //     });
+                // }
             }
         });
     }

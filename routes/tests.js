@@ -8,7 +8,7 @@ router.all('*', cors());
 router.post('/', test_controller.create);
 router.get('/', test_controller.findall);
 router.get('/:testID', test_controller.findone);
-router.get('/applicant-aptitude-test/:testID', authentication_controller.tokenrequired, test_controller.findone);
+router.get('/applicant-aptitude-test/:token', authentication_controller.verifytoken, test_controller.assigntest);
 router.put('/:testID', test_controller.update);
 router.delete('/:testID', test_controller.delete);
 

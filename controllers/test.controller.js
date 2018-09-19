@@ -1,5 +1,6 @@
 var Test = require('../models/test.model.js');
 var TestInstance = Test.TestInstance;
+var jwt = require('jsonwebtoken')
 
 exports.create = function (req,res) {
     if (!req.body) {
@@ -51,6 +52,18 @@ exports.findone = function (req,res) {
         return res.json(data);
     });
 };
+
+exports.assigntest = function (req,res) {
+    const tokenPayload = jwt.decode(req.params.token);
+    TestInstance.findById(tokenPayload.aptitudeTest, function (err, data) {
+        if (err) {
+            return res.status(500).send({
+                message: 'Unable to assign applicant with test ID: ' + tokenPayload.aptitudeTest
+            });
+        }
+        return res.json(data);
+    });
+}
 
 exports.update = function (req,res) {
     //change test
