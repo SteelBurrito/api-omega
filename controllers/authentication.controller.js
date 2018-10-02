@@ -16,6 +16,7 @@ exports.generatetoken = (req,res) => {
             });
         }
 
+        var applicantID = req.params.applicantID;
         var name = applicant.name;
         var email = applicant.email;
         var aptitudeTest = applicant.aptitudeTest;
@@ -28,6 +29,7 @@ exports.generatetoken = (req,res) => {
             else if (test) {
              const tokenExpiration = JSON.parse(JSON.stringify(test.countdownMinute));
              var token = jwt.sign({
+                 applicantID,
                  name,
                  email,
                  aptitudeTest,
@@ -69,7 +71,7 @@ exports.verifytoken = (req,res,next) => {
                     next()
                 }
                 else {
-                    return res.status(400).send({
+                    return res.status(403).send({
                         message: 'Token Invalid!'
                     });
                 }

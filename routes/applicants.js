@@ -9,6 +9,7 @@ router.post('/', applicant_controller.create);
 router.get('/', applicant_controller.findall);
 router.get('/:applicantID', applicant_controller.findone);
 router.put('/:applicantID', applicant_controller.update);
+router.put('/submit/:token', authentication_controller.verifytoken, applicant_controller.submitapplicanttestresult);
 router.delete('/:applicantID', applicant_controller.delete);
 router.get('/jwttest/:applicantID', authentication_controller.generatetoken);
 router.get('/decode/:token', authentication_controller.verifytoken);

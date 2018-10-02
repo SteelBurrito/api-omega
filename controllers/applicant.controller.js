@@ -1,5 +1,6 @@
 var Applicant = require('../models/test.model.js');
 var ApplicantInstance = Applicant.ApplicantInstance;
+var jwt = require('jsonwebtoken');
 
 exports.create = function (req,res) {
     if (!req.body) {
@@ -55,7 +56,6 @@ exports.update = (req,res) => {
             message: 'Update content cannot be empty'
         });
     }
-    // console.log(req.params.applicantID);
     ApplicantInstance.findByIdAndUpdate (req.params.applicantID, {
             name : req.body.name,
             jobtitleApplied : req.body.jobtitleApplied,
@@ -81,6 +81,30 @@ exports.update = (req,res) => {
         });
     });
 };  
+
+exports.submitapplicanttestresult = function (req,res) {
+    const tokenPayload = jwt.decode(req.params.token);
+    ApplicantInstance.findByIdAndUpdate (tokenPayload.applicantID, {
+        results: req.body.results
+    }, {new: true})
+    .then(applicant => {
+        if (!applicant) {
+            return res.status(404).send({
+                message: 'Applicant not found with ID = ' + tokenPayload.applicantID
+            });
+        }
+        res.send(applicant);
+    }).catch (err => {
+        if (err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: 'Applicant not found with ID = ' + tokenPayload.applicantID
+            });
+        }
+        return res.status(500).send({
+            message: 'An error occured while updating applicant with ID = ' + tokenPayload.applicantID
+        });
+    });
+};
 
 exports.delete = function (req,res) {
     ApplicantInstance.findByIdAndRemove(req.params.applicantID)
