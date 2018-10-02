@@ -66,15 +66,14 @@ exports.verifytoken = (req,res,next) => {
                     expiresIn: tokenExpiration + 'm',
                     algorithm: ['RS256']
                 }
-                var verified = jwt.verify(token, publicKEY, verification);
-                if (verified) {
-                    next()
-                }
-                else {
-                    return res.status(403).send({
-                        message: 'Token Invalid!'
+                try {
+                    jwt.verify(token, publicKEY, verification);
+                } catch (err) {
+                    return res.status(401).send({
+                        message: err
                     });
                 }
+                return next();
             }
         });
     }
