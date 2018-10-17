@@ -56,13 +56,7 @@ exports.update = (req,res) => {
             message: 'Update content cannot be empty'
         });
     }
-    ApplicantInstance.findByIdAndUpdate (req.params.applicantID, {
-            name : req.body.name,
-            jobtitleApplied : req.body.jobtitleApplied,
-            email : req.body.email,
-            aptitudeTest : req.body.aptitudeTest,
-            results : req.body.results
-    }, {new: true})
+    ApplicantInstance.findByIdAndUpdate (req.params.applicantID, req.body, {new: true})
     .then(applicant => {
         if(!applicant) {
             return res.status(404).send({

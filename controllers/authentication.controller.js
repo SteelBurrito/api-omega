@@ -12,7 +12,7 @@ exports.generatetoken = (req,res) => {
     ApplicantInstance.findById (req.params.applicantID).then (applicant => {
         if(!applicant) {
             return res.status(400).send({
-                message: 'Unable to generate token for applicant with ID = ' +  req.body.email
+                message: 'Unable to generate token for applicant with ID = ' +  req.params.applicantID
             });
         }
 
