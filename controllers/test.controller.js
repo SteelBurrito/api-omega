@@ -26,7 +26,7 @@ exports.create = function (req,res) {
                 err
             });
         }
-        return res.json(data);
+        return res.json(newTest);
     });
 };
 
