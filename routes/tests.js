@@ -4,6 +4,7 @@ var cors = require('cors');
 var test_controller = require('../controllers/test.controller.js');
 var authentication_controller = require('../controllers/authentication.controller.js');
 
+// Root route: /tests
 router.all('*', cors());
 router.post('/', test_controller.create);
 router.get('/', test_controller.findall);
